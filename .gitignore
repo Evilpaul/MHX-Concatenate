@@ -1,0 +1,11 @@
+*.csproj.user
+*.obj
+*.exe
+*.pdb
+*.manifest
+*.resources
+*.dll
+*.tlog
+*.cache
+*.FileListAbsolute.txt
+
