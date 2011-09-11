@@ -11,65 +11,17 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        private bool file1Selected = false;
+        private bool file2Selected = false;
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void saveFileDialog1_FileOk_1(object sender, CancelEventArgs e)
-        {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.DefaultExt = "mhx";
-            saveDialog.AddExtension = true;
-            saveDialog.InitialDirectory = @"C:\Users\YourName\Documents\";
-            saveDialog.OverwritePrompt = true;
-            saveDialog.Title = "Bell Ringers";
-            saveDialog.ValidateNames = true;
-        }
-
-        private void openFileDialog1_FileOk_1(object sender, CancelEventArgs e)
-        {
-
+            textBox1.Text = "Doing  stuff";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -78,8 +30,10 @@ namespace WindowsFormsApplication1
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK) // Test result.
             {
+                textBox2.Text = openFileDialog1.FileName;
+                label1.Text = openFileDialog1.SafeFileName;
+                label5.Text = "0x000000";
             }
-            textBox2.Text = result.ToString(); // <-- For debugging use only.
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -88,8 +42,10 @@ namespace WindowsFormsApplication1
             DialogResult result = openFileDialog2.ShowDialog();
             if (result == DialogResult.OK) // Test result.
             {
+                textBox3.Text = openFileDialog2.FileName;
+                label2.Text = openFileDialog2.SafeFileName;
+                label6.Text = "0x000000";
             }
-            textBox3.Text = result.ToString(); // <-- For debugging use only.
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -98,8 +54,57 @@ namespace WindowsFormsApplication1
             DialogResult result = saveFileDialog1.ShowDialog();
             if (result == DialogResult.OK) // Test result.
             {
+                textBox4.Text = saveFileDialog1.FileName;
             }
-            textBox4.Text = result.ToString(); // <-- For debugging use only.
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            button1.Enabled = true;
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            file1Selected = true;
+
+            if (file1Selected && file2Selected)
+            {
+                button4.Enabled = true;
+                radioButton1.Enabled = true;
+                label1.Enabled = true;
+                radioButton2.Enabled = true;
+                label2.Enabled = true;
+                radioButton3.Enabled = true;
+                maskedTextBox1.Enabled = true;
+                radioButton4.Enabled = true;
+                label5.Enabled = true;
+                radioButton5.Enabled = true;
+                label6.Enabled = true;
+                radioButton6.Enabled = true;
+                maskedTextBox2.Enabled = true;
+            }
+        }
+
+        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+            file2Selected = true;
+
+            if (file1Selected && file2Selected)
+            {
+                button4.Enabled = true;
+                radioButton1.Enabled = true;
+                label1.Enabled = true;
+                radioButton2.Enabled = true;
+                label2.Enabled = true;
+                radioButton3.Enabled = true;
+                maskedTextBox1.Enabled = true;
+                radioButton4.Enabled = true;
+                label5.Enabled = true;
+                radioButton5.Enabled = true;
+                label6.Enabled = true;
+                radioButton6.Enabled = true;
+                maskedTextBox2.Enabled = true;
+            }
         }
     }
 }
