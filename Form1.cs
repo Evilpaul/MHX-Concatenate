@@ -41,8 +41,7 @@ namespace WindowsFormsApplication1
             }
             res = (byte)(0xff - sum);
 
-            textBox1.Text = "checksum : " + Convert.ToString(res, 16).PadLeft(2, '0');
-
+            listBox1.Items.Insert(0, "checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -102,7 +101,7 @@ namespace WindowsFormsApplication1
                 radioButton5.Enabled = true;
                 label6.Enabled = true;
                 radioButton6.Enabled = true;
-                maskedTextBox2.Enabled = true;
+                numericUpDown1.Enabled = true;
             }
         }
 
@@ -124,7 +123,7 @@ namespace WindowsFormsApplication1
                 radioButton5.Enabled = true;
                 label6.Enabled = true;
                 radioButton6.Enabled = true;
-                maskedTextBox2.Enabled = true;
+                numericUpDown1.Enabled = true;
             }
         }
     }
