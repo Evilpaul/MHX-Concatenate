@@ -21,7 +21,28 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "Doing  stuff";
+            byte sum = 0;
+            byte res = 0;
+            byte[] buf;
+            int i;
+
+            buf = new byte[6];
+
+            buf[0] = 0x06;
+            buf[1] = 0x00;
+            buf[2] = 0x00;
+            buf[3] = 0x48;
+            buf[4] = 0x44;
+            buf[5] = 0x52;
+
+            for (i = 0; i < 6; i++)
+            {
+                sum += buf[i];
+            }
+            res = (byte)(0xff - sum);
+
+            textBox1.Text = "checksum : " + Convert.ToString(res, 16).PadLeft(2, '0');
+
         }
 
         private void button2_Click(object sender, EventArgs e)
