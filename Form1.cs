@@ -35,13 +35,27 @@ namespace WindowsFormsApplication1
             buf[4] = 0x44;
             buf[5] = 0x52;
 
+            button1.Enabled = false;
+            progressBar1.Value = progressBar1.Minimum;
+
+            listBox1.Items.Clear();
+            listBox1.Items.Add("Record Type : S0 (Block Header)");
+            listBox1.Items.Add("Byte Count : 06");
+            listBox1.Items.Add("Address : 0x0000");
+            listBox1.Items.Add("Data : 484452");
+            
             for (i = 0; i < 6; i++)
             {
                 sum += buf[i];
+                progressBar1.Increment(10);
             }
             res = (byte)(0xff - sum);
 
-            listBox1.Items.Insert(0, "checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
+            listBox1.Items.Add("Checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
+            listBox1.Items.Add("Record valid");
+
+            button1.Enabled = true;
+            progressBar1.Value = progressBar1.Maximum;
         }
 
         private void button2_Click(object sender, EventArgs e)
