@@ -173,12 +173,14 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "mhx";
+            this.saveFileDialog1.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.saveFileDialog1.Title = "Save As...";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "mhx";
+            this.openFileDialog1.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // button2
@@ -239,6 +241,7 @@
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
             // 
             // panel2
