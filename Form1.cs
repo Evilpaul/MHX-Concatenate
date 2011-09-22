@@ -47,7 +47,6 @@ namespace WindowsFormsApplication1
             for (i = 0; i < 6; i++)
             {
                 sum += buf[i];
-                progressBar1.Increment(10);
             }
             res = (byte)(0xff - sum);
 
@@ -55,7 +54,10 @@ namespace WindowsFormsApplication1
             listBox1.Items.Add("Record valid");
 
             button1.Enabled = true;
-            progressBar1.Value = progressBar1.Maximum;
+            
+
+            Form2 form2 = new Form2();
+            form2.ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -65,8 +67,6 @@ namespace WindowsFormsApplication1
             if (result == DialogResult.OK) // Test result.
             {
                 textBox2.Text = openFileDialog1.FileName;
-                label1.Text = openFileDialog1.SafeFileName;
-                label5.Text = "0x000000";
             }
         }
 
@@ -77,8 +77,6 @@ namespace WindowsFormsApplication1
             if (result == DialogResult.OK) // Test result.
             {
                 textBox3.Text = openFileDialog2.FileName;
-                label2.Text = openFileDialog2.SafeFileName;
-                label6.Text = "0x000000";
             }
         }
 
@@ -104,18 +102,6 @@ namespace WindowsFormsApplication1
             if (file1Selected && file2Selected)
             {
                 button4.Enabled = true;
-                radioButton1.Enabled = true;
-                label1.Enabled = true;
-                radioButton2.Enabled = true;
-                label2.Enabled = true;
-                radioButton3.Enabled = true;
-                maskedTextBox1.Enabled = true;
-                radioButton4.Enabled = true;
-                label5.Enabled = true;
-                radioButton5.Enabled = true;
-                label6.Enabled = true;
-                radioButton6.Enabled = true;
-                numericUpDown1.Enabled = true;
             }
         }
 
@@ -126,18 +112,6 @@ namespace WindowsFormsApplication1
             if (file1Selected && file2Selected)
             {
                 button4.Enabled = true;
-                radioButton1.Enabled = true;
-                label1.Enabled = true;
-                radioButton2.Enabled = true;
-                label2.Enabled = true;
-                radioButton3.Enabled = true;
-                maskedTextBox1.Enabled = true;
-                radioButton4.Enabled = true;
-                label5.Enabled = true;
-                radioButton5.Enabled = true;
-                label6.Enabled = true;
-                radioButton6.Enabled = true;
-                numericUpDown1.Enabled = true;
             }
         }
 
