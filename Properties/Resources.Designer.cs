@@ -67,5 +67,12 @@ namespace WindowsFormsApplication1.Properties
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Icon _1381_cog {
+            get {
+                object obj = ResourceManager.GetObject("_1381_cog", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
