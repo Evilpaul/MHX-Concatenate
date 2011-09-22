@@ -62,13 +62,26 @@ namespace WindowsFormsApplication1
             listBox1.Items.Add("Record valid");
 
             button1.Enabled = true;
-            
 
             Form2 form2 = new Form2();
-            DialogResult result1 = form2.ShowDialog();
+            try
+            {
+                DialogResult result1 = form2.ShowDialog();
+            }
+            catch
+            {
+            }
+            form2.Dispose();
 
             Form3 form3 = new Form3();
-            DialogResult result2 = form3.ShowDialog();
+            try
+            {
+                DialogResult result2 = form3.ShowDialog();
+            }
+            catch
+            {
+            }
+            form3.Dispose();
         }
 
         private void button2_Click(object sender, EventArgs e)
