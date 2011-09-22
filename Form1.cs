@@ -19,6 +19,14 @@ namespace WindowsFormsApplication1
             InitializeComponent();
         }
 
+        private void checkOpenFilesSelected()
+        {
+            if (file1Selected && file2Selected)
+            {
+                button4.Enabled = true;
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             byte sum = 0;
@@ -99,20 +107,14 @@ namespace WindowsFormsApplication1
         {
             file1Selected = true;
 
-            if (file1Selected && file2Selected)
-            {
-                button4.Enabled = true;
-            }
+            checkOpenFilesSelected();
         }
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
             file2Selected = true;
 
-            if (file1Selected && file2Selected)
-            {
-                button4.Enabled = true;
-            }
+            checkOpenFilesSelected();
         }
 
         // This event occurs when the user drags over the form with 
@@ -135,6 +137,9 @@ namespace WindowsFormsApplication1
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             // Do something with the data...
+            file1Selected = true;
+
+            checkOpenFilesSelected();
 
             // add file into a simple label control:
             textBox2.Text = FileList[0];
@@ -160,6 +165,9 @@ namespace WindowsFormsApplication1
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             // Do something with the data...
+            file2Selected = true;
+
+            checkOpenFilesSelected();
 
             // add file into a simple label control:
             textBox3.Text = FileList[0];
@@ -185,6 +193,7 @@ namespace WindowsFormsApplication1
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             // Do something with the data...
+            button1.Enabled = true;
 
             // add file into a simple label control:
             textBox4.Text = FileList[0];
