@@ -140,5 +140,80 @@ namespace WindowsFormsApplication1
                 numericUpDown1.Enabled = true;
             }
         }
+
+        // This event occurs when the user drags over the form with 
+        // the mouse during a drag drop operation 
+        private void textBox2_DragEnter(object sender, DragEventArgs e)
+        {
+            // Check if the Dataformat of the data can be accepted
+            // (we only accept file drops from Explorer, etc.)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy; // Okay
+            else
+                e.Effect = DragDropEffects.None; // Unknown data, ignore it
+
+        }
+
+        // Occurs when the user releases the mouse over the drop target 
+        private void textBox2_DragDrop(object sender, DragEventArgs e)
+        {
+            // Extract the data from the DataObject-Container into a string list
+            string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            // Do something with the data...
+
+            // add file into a simple label control:
+            textBox2.Text = FileList[0];
+        }
+
+        // This event occurs when the user drags over the form with 
+        // the mouse during a drag drop operation 
+        private void textBox3_DragEnter(object sender, DragEventArgs e)
+        {
+            // Check if the Dataformat of the data can be accepted
+            // (we only accept file drops from Explorer, etc.)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy; // Okay
+            else
+                e.Effect = DragDropEffects.None; // Unknown data, ignore it
+
+        }
+
+        // Occurs when the user releases the mouse over the drop target 
+        private void textBox3_DragDrop(object sender, DragEventArgs e)
+        {
+            // Extract the data from the DataObject-Container into a string list
+            string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            // Do something with the data...
+
+            // add file into a simple label control:
+            textBox3.Text = FileList[0];
+        }
+
+        // This event occurs when the user drags over the form with 
+        // the mouse during a drag drop operation 
+        private void textBox4_DragEnter(object sender, DragEventArgs e)
+        {
+            // Check if the Dataformat of the data can be accepted
+            // (we only accept file drops from Explorer, etc.)
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy; // Okay
+            else
+                e.Effect = DragDropEffects.None; // Unknown data, ignore it
+
+        }
+
+        // Occurs when the user releases the mouse over the drop target 
+        private void textBox4_DragDrop(object sender, DragEventArgs e)
+        {
+            // Extract the data from the DataObject-Container into a string list
+            string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            // Do something with the data...
+
+            // add file into a simple label control:
+            textBox4.Text = FileList[0];
+        }
     }
 }

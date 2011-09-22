@@ -195,11 +195,14 @@
             // 
             // textBox2
             // 
+            this.textBox2.AllowDrop = true;
             this.textBox2.Location = new System.Drawing.Point(93, 14);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(450, 20);
             this.textBox2.TabIndex = 11;
+            this.textBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox2_DragDrop);
+            this.textBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox2_DragEnter);
             // 
             // button3
             // 
@@ -213,11 +216,14 @@
             // 
             // textBox3
             // 
+            this.textBox3.AllowDrop = true;
             this.textBox3.Location = new System.Drawing.Point(93, 43);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(450, 20);
             this.textBox3.TabIndex = 13;
+            this.textBox3.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox3_DragDrop);
+            this.textBox3.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox3_DragEnter);
             // 
             // button4
             // 
@@ -232,11 +238,14 @@
             // 
             // textBox4
             // 
+            this.textBox4.AllowDrop = true;
             this.textBox4.Location = new System.Drawing.Point(93, 72);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(450, 20);
             this.textBox4.TabIndex = 15;
+            this.textBox4.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox4_DragDrop);
+            this.textBox4.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox4_DragEnter);
             // 
             // openFileDialog2
             // 
