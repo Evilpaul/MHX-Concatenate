@@ -29,6 +29,7 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
+/*
             byte sum = 0;
             byte res = 0;
             byte[] buf;
@@ -42,6 +43,7 @@ namespace WindowsFormsApplication1
             buf[3] = 0x48;
             buf[4] = 0x44;
             buf[5] = 0x52;
+*/
 
             button1.Enabled = false;
             progressBar1.Value = progressBar1.Minimum;
@@ -53,16 +55,17 @@ namespace WindowsFormsApplication1
             listBox1.Items.Add("Processing File 2...");
             listBox1.Items.Add("File 2 is valid.");
             progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (2/3);
-            
-//            for (i = 0; i < 6; i++)
-//            {
-//                sum += buf[i];
-//            }
-//            res = (byte)(0xff - sum);
 
-//            listBox1.Items.Add("Checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
-//            listBox1.Items.Add("Record valid");
+/*            
+            for (i = 0; i < 6; i++)
+            {
+                sum += buf[i];
+            }
+            res = (byte)(0xff - sum);
 
+            listBox1.Items.Add("Checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
+            listBox1.Items.Add("Record valid");
+*/
             button1.Enabled = true;
 
             Form2 form2 = new Form2();
@@ -75,7 +78,10 @@ namespace WindowsFormsApplication1
             {
                 listBox1.Items.Add("Exception caught!");
             }
-            form2.Dispose();
+            finally
+            {
+                form2.Dispose();
+            }
 
             Form3 form3 = new Form3();
             try
@@ -87,7 +93,10 @@ namespace WindowsFormsApplication1
             {
                 listBox1.Items.Add("Exception caught!");
             }
-            form3.Dispose();
+            finally
+            {
+                form3.Dispose();
+            }
 
             listBox1.Items.Add("Output processing...");
             listBox1.Items.Add("Output complete.");
