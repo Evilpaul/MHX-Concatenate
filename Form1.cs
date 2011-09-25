@@ -29,6 +29,7 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            bool result = true;
 /*
             byte sum = 0;
             byte res = 0;
@@ -49,12 +50,19 @@ namespace WindowsFormsApplication1
             progressBar1.Value = progressBar1.Minimum;
 
             listBox1.Items.Clear();
+
+            // file 1 processing
             listBox1.Items.Add("Processing File 1...");
             listBox1.Items.Add("File 1 is valid.");
             progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (1/3);
-            listBox1.Items.Add("Processing File 2...");
-            listBox1.Items.Add("File 2 is valid.");
-            progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (2/3);
+
+            // file 2 processing
+            if (result)
+            {
+                listBox1.Items.Add("Processing File 2...");
+                listBox1.Items.Add("File 2 is valid.");
+                progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (2 / 3);
+            }
 
 /*            
             for (i = 0; i < 6; i++)
@@ -66,41 +74,68 @@ namespace WindowsFormsApplication1
             listBox1.Items.Add("Checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
             listBox1.Items.Add("Record valid");
 */
-            button1.Enabled = true;
 
-            Form2 form2 = new Form2();
-            try
+            if (result)
             {
-                DialogResult result1 = form2.ShowDialog();
-                listBox1.Items.Add("Output Header : TBD");
-            }
-            catch
-            {
-                listBox1.Items.Add("Exception caught!");
-            }
-            finally
-            {
-                form2.Dispose();
-            }
-
-            Form3 form3 = new Form3();
-            try
-            {
-                DialogResult result2 = form3.ShowDialog();
-                listBox1.Items.Add("Output Start Address : TBD");
-            }
-            catch
-            {
-                listBox1.Items.Add("Exception caught!");
-            }
-            finally
-            {
-                form3.Dispose();
+                Form2 form2 = new Form2();
+                try
+                {
+                    DialogResult dresult = form2.ShowDialog();
+                    if (dresult == System.Windows.Forms.DialogResult.OK)
+                    {
+                        listBox1.Items.Add("result : " + result);
+                        listBox1.Items.Add("Output Header : TBD");
+                    }
+                    else
+                    {
+                        listBox1.Items.Add("User cancelled operation");
+                        result = false;
+                    }
+                }
+                catch
+                {
+                    listBox1.Items.Add("Exception caught!");
+                }
+                finally
+                {
+                    form2.Dispose();
+                }
             }
 
-            listBox1.Items.Add("Output processing...");
-            listBox1.Items.Add("Output complete.");
+            if (result)
+            {
+                Form3 form3 = new Form3();
+                try
+                {
+                    DialogResult dresult = form3.ShowDialog();
+                    if (dresult == System.Windows.Forms.DialogResult.OK)
+                    {
+                        listBox1.Items.Add("result : " + result);
+                        listBox1.Items.Add("Output Start Address : TBD");
+                    }
+                    else
+                    {
+                        listBox1.Items.Add("User cancelled operation");
+                        result = false;
+                    }
+                }
+                catch
+                {
+                    listBox1.Items.Add("Exception caught!");
+                }
+                finally
+                {
+                    form3.Dispose();
+                }
+            }
+
+            if (result)
+            {
+                listBox1.Items.Add("Output processing...");
+                listBox1.Items.Add("Output complete.");
+            }
             progressBar1.Value = progressBar1.Maximum;
+            button1.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
