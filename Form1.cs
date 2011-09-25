@@ -47,6 +47,7 @@ namespace WindowsFormsApplication1
 */
 
             button1.Enabled = false;
+            checkBox1.Enabled = false;
             progressBar1.Value = progressBar1.Minimum;
 
             listBox1.Items.Clear();
@@ -136,6 +137,7 @@ namespace WindowsFormsApplication1
             }
             progressBar1.Value = progressBar1.Maximum;
             button1.Enabled = true;
+            checkBox1.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -171,6 +173,7 @@ namespace WindowsFormsApplication1
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             button1.Enabled = true;
+            checkBox1.Enabled = true;
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -264,6 +267,7 @@ namespace WindowsFormsApplication1
 
             // Do something with the data...
             button1.Enabled = true;
+            checkBox1.Enabled = true;
 
             // add file into a simple label control:
             textBox4.Text = FileList[0];
