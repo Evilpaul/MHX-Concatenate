@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
@@ -29,115 +30,92 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool result = true;
-/*
-            byte sum = 0;
-            byte res = 0;
-            byte[] buf;
-            int i;
-
-            buf = new byte[6];
-
-            buf[0] = 0x06;
-            buf[1] = 0x00;
-            buf[2] = 0x00;
-            buf[3] = 0x48;
-            buf[4] = 0x44;
-            buf[5] = 0x52;
-*/
-
             button1.Enabled = false;
-            checkBox1.Enabled = false;
+            progressBar1.Minimum = 0;
             progressBar1.Value = progressBar1.Minimum;
 
             listBox1.Items.Clear();
 
-            // file 1 processing
-            listBox1.Items.Add("Processing File 1...");
-            listBox1.Items.Add("File 1 is valid.");
-            progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (1/3);
+            listBox1.Items.Add("Opening Files...");
+            int length1 = File.ReadLines(openFileDialog1.FileName).Count();
+            listBox1.Items.Add("PBL has " + length1 + " lines");
+            int length2 = File.ReadLines(openFileDialog2.FileName).Count();
+            listBox1.Items.Add("App has " + length2 + " lines");
+            progressBar1.Maximum = (length1 + length2) - 1;
 
-            // file 2 processing
-            if (result)
+            try
             {
-                listBox1.Items.Add("Processing File 2...");
-                listBox1.Items.Add("File 2 is valid.");
-                progressBar1.Value = (progressBar1.Maximum - progressBar1.Minimum) * (2 / 3);
-            }
-
-/*            
-            for (i = 0; i < 6; i++)
-            {
-                sum += buf[i];
-            }
-            res = (byte)(0xff - sum);
-
-            listBox1.Items.Add("Checksum : " + Convert.ToString(res, 16).PadLeft(2, '0'));
-            listBox1.Items.Add("Record valid");
-*/
-
-            if (result)
-            {
-                Form2 form2 = new Form2();
+                // file 1 processing
+                StreamReader sr1 = new StreamReader(openFileDialog1.FileName);
+                StreamReader sr2 = new StreamReader(openFileDialog2.FileName);
+                StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
+                int file1Count = 0;
+                int file2Count = 0;
+                int outputCount = 0;
                 try
                 {
-                    DialogResult dresult = form2.ShowDialog();
-                    if (dresult == System.Windows.Forms.DialogResult.OK)
+                    string file1header = sr1.ReadLine();
+                    file1Count++;
+                    progressBar1.Increment(1);
+
+                    string file2header = sr2.ReadLine();
+                    file2Count++;
+                    progressBar1.Increment(1);
+
+                    listBox1.Items.Add("Writing header : "+ file1header);
+                    sw.WriteLine(file1header);
+                    outputCount++;
+
+                    listBox1.Items.Add("Copying PBL...");
+                    while ((sr1.Peek() >= 0) && (file1Count < (length1 - 1)))
                     {
-                        listBox1.Items.Add("result : " + result);
-                        listBox1.Items.Add("Output Header : TBD");
+                        sw.WriteLine(sr1.ReadLine());
+                        file1Count++;
+                        progressBar1.Increment(1);
+                        outputCount++;
                     }
-                    else
+                    listBox1.Items.Add("PBL copied");
+
+                    listBox1.Items.Add("Copying App...");
+                    while ((sr2.Peek() >= 0) && (file2Count < (length2 - 1)))
                     {
-                        listBox1.Items.Add("User cancelled operation");
-                        result = false;
+                        sw.WriteLine(sr2.ReadLine());
+                        file2Count++;
+                        progressBar1.Increment(1);
+                        outputCount++;
                     }
+                    listBox1.Items.Add("App copied");
+
+                    string file1address = sr1.ReadLine();
+                    progressBar1.Increment(1);
+
+                    string file2address = sr2.ReadLine();
+                    progressBar1.Increment(1);
+
+                    listBox1.Items.Add("Writing start address : " + file1address);
+                    sw.WriteLine(file1address);
+                    outputCount++;
+
+                    listBox1.Items.Add("Written " + outputCount + " lines");
+                    listBox1.Items.Add("Concatenation complete.");
                 }
                 catch
                 {
-                    listBox1.Items.Add("Exception caught!");
+                    listBox1.Items.Add("Exception caught processing files!");
                 }
                 finally
                 {
-                    form2.Dispose();
+                    sr1.Close();
+                    sr2.Close();
+                    sw.Close();
                 }
+            }
+            catch
+            {
+                listBox1.Items.Add("Exception caught opening files!");
             }
 
-            if (result)
-            {
-                Form3 form3 = new Form3();
-                try
-                {
-                    DialogResult dresult = form3.ShowDialog();
-                    if (dresult == System.Windows.Forms.DialogResult.OK)
-                    {
-                        listBox1.Items.Add("result : " + result);
-                        listBox1.Items.Add("Output Start Address : TBD");
-                    }
-                    else
-                    {
-                        listBox1.Items.Add("User cancelled operation");
-                        result = false;
-                    }
-                }
-                catch
-                {
-                    listBox1.Items.Add("Exception caught!");
-                }
-                finally
-                {
-                    form3.Dispose();
-                }
-            }
-
-            if (result)
-            {
-                listBox1.Items.Add("Output processing...");
-                listBox1.Items.Add("Output complete.");
-            }
-            progressBar1.Value = progressBar1.Maximum;
             button1.Enabled = true;
-            checkBox1.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -173,7 +151,6 @@ namespace WindowsFormsApplication1
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             button1.Enabled = true;
-            checkBox1.Enabled = true;
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -267,7 +244,6 @@ namespace WindowsFormsApplication1
 
             // Do something with the data...
             button1.Enabled = true;
-            checkBox1.Enabled = true;
 
             // add file into a simple label control:
             textBox4.Text = FileList[0];
