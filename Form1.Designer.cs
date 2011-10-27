@@ -139,7 +139,7 @@
             // 
             // openFileDialog2
             // 
-            this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.DefaultExt = "mhx";
             this.openFileDialog2.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
             // 
