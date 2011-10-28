@@ -12,17 +12,25 @@ namespace mhx_concatenate
 {
     public partial class Form1 : Form
     {
-        private bool file1Selected = false;
-        private bool file2Selected = false;
+        private dataStore pbl_file;
+        private dataStore app_file;
 
         public Form1()
         {
             InitializeComponent();
+
+            pbl_file = new dataStore(this);
+            app_file = new dataStore(this);
+        }
+
+        public void addLogText(string logText)
+        {
+            listBox1.Items.Add(logText);
         }
 
         private void checkOpenFilesSelected()
         {
-            if (file1Selected && file2Selected)
+            if (pbl_file.isDataValid() && app_file.isDataValid())
             {
                 button4.Enabled = true;
             }
@@ -30,76 +38,22 @@ namespace mhx_concatenate
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataStore pbl_file = new dataStore();
-            dataStore app_file = new dataStore();
-
             button1.Enabled = false;
             progressBar1.Minimum = 0;
+            progressBar1.Maximum = pbl_file.getDataCount() + app_file.getDataCount() + 2;
             progressBar1.Value = progressBar1.Minimum;
-
-            listBox1.Items.Clear();
-
-            int length1 = File.ReadLines(openFileDialog1.FileName).Count();
-            int length2 = File.ReadLines(openFileDialog2.FileName).Count();
-            progressBar1.Maximum = (length1 + length2) - 1;
 
             try
             {
-                // file 1 processing
-                StreamReader sr1 = new StreamReader(openFileDialog1.FileName);
-                StreamReader sr2 = new StreamReader(openFileDialog2.FileName);
                 StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
                 try
                 {
-                    listBox1.Items.Add("Processing PBL");
-
-                    // read pbl file
-                    while (sr1.Peek() >= 0)
-                    {
-                        pbl_file.addDataLine(sr1.ReadLine());
-                        progressBar1.Increment(1);
-                    }
-
-                    if (pbl_file.validData())
-                    {
-                        listBox1.Items.Add("PBL is valid");
-                        listBox1.Items.Add("Header : " + pbl_file.getHeader());
-                        listBox1.Items.Add("Data line count : " + pbl_file.getDataCount());
-                        listBox1.Items.Add("Start Address : " + pbl_file.getStartAddress());
-                    }
-                    else
-                    {
-                        listBox1.Items.Add("PBL is invalid");
-                    }
-
-                    listBox1.Items.Add("");
-                    listBox1.Items.Add("Processing App");
-
-                    // read app file
-                    while (sr2.Peek() >= 0)
-                    {
-                        app_file.addDataLine(sr2.ReadLine());
-                        progressBar1.Increment(1);
-                    }
-
-                    if (pbl_file.validData())
-                    {
-                        listBox1.Items.Add("App is valid");
-                        listBox1.Items.Add("Header : " + app_file.getHeader());
-                        listBox1.Items.Add("Data line count : " + app_file.getDataCount());
-                        listBox1.Items.Add("Start Address : " + app_file.getStartAddress());
-                    }
-                    else
-                    {
-                        listBox1.Items.Add("App is invalid");
-                    }
-
-                    listBox1.Items.Add("");
-                    listBox1.Items.Add("Writing output file");
-                    listBox1.Items.Add("Writing header : " + pbl_file.getHeader());
+                    addLogText("Writing output file");
+                    addLogText("Writing header : " + pbl_file.getHeader());
                     sw.WriteLine(pbl_file.getHeader());
+                    progressBar1.Increment(1);
 
-                    listBox1.Items.Add("Writing " + (pbl_file.getDataCount() + app_file.getDataCount()) + " data lines");
+                    addLogText("Writing " + (pbl_file.getDataCount() + app_file.getDataCount()) + " data lines");
                     int i;
                     for (i = 0; i < pbl_file.getDataCount(); i++)
                     {
@@ -112,25 +66,24 @@ namespace mhx_concatenate
                         progressBar1.Increment(1);
                     }
 
-                    listBox1.Items.Add("Writing start address : " + pbl_file.getStartAddress());
+                    addLogText("Writing start address : " + pbl_file.getStartAddress());
                     sw.WriteLine(pbl_file.getStartAddress());
+                    progressBar1.Increment(1);
 
-                    listBox1.Items.Add("Concatenation complete.");
+                    addLogText("Concatenation complete.");
                 }
                 catch
                 {
-                    listBox1.Items.Add("Exception caught processing files!");
+                    addLogText("Exception caught processing files!");
                 }
                 finally
                 {
-                    sr1.Close();
-                    sr2.Close();
                     sw.Close();
                 }
             }
             catch
             {
-                listBox1.Items.Add("Exception caught opening files!");
+                addLogText("Exception caught opening files!");
             }
 
             button1.Enabled = true;
@@ -173,15 +126,13 @@ namespace mhx_concatenate
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            file1Selected = true;
-
+            pbl_file.processFile(openFileDialog1.FileName);
             checkOpenFilesSelected();
         }
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
-            file2Selected = true;
-
+            app_file.processFile(openFileDialog2.FileName);
             checkOpenFilesSelected();
         }
 
@@ -204,13 +155,13 @@ namespace mhx_concatenate
             // Extract the data from the DataObject-Container into a string list
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
-            // Do something with the data...
-            file1Selected = true;
-
-            checkOpenFilesSelected();
-
             // add file into a simple label control:
             textBox2.Text = FileList[0];
+            
+            // Do something with the data...
+            pbl_file.processFile(FileList[0]);
+
+            checkOpenFilesSelected();
         }
 
         // This event occurs when the user drags over the form with 
@@ -232,13 +183,13 @@ namespace mhx_concatenate
             // Extract the data from the DataObject-Container into a string list
             string[] FileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
-            // Do something with the data...
-            file2Selected = true;
-
-            checkOpenFilesSelected();
-
             // add file into a simple label control:
             textBox3.Text = FileList[0];
+            
+            // Do something with the data...
+            app_file.processFile(FileList[0]);
+
+            checkOpenFilesSelected();
         }
 
         // This event occurs when the user drags over the form with 
