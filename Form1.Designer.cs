@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace mhx_concatenate
 {
     partial class Form1
     {

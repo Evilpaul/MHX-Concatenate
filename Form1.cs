@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-namespace WindowsFormsApplication1
+namespace mhx_concatenate
 {
     public partial class Form1 : Form
     {
