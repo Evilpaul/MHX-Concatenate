@@ -30,17 +30,17 @@ namespace mhx_concatenate
 
         private void button1_Click(object sender, EventArgs e)
         {
+            dataStore pbl_file = new dataStore();
+            dataStore app_file = new dataStore();
+
             button1.Enabled = false;
             progressBar1.Minimum = 0;
             progressBar1.Value = progressBar1.Minimum;
 
             listBox1.Items.Clear();
 
-            listBox1.Items.Add("Opening Files...");
             int length1 = File.ReadLines(openFileDialog1.FileName).Count();
-            listBox1.Items.Add("PBL has " + length1 + " lines");
             int length2 = File.ReadLines(openFileDialog2.FileName).Count();
-            listBox1.Items.Add("App has " + length2 + " lines");
             progressBar1.Maximum = (length1 + length2) - 1;
 
             try
@@ -49,54 +49,72 @@ namespace mhx_concatenate
                 StreamReader sr1 = new StreamReader(openFileDialog1.FileName);
                 StreamReader sr2 = new StreamReader(openFileDialog2.FileName);
                 StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
-                int file1Count = 0;
-                int file2Count = 0;
-                int outputCount = 0;
                 try
                 {
-                    string file1header = sr1.ReadLine();
-                    file1Count++;
-                    progressBar1.Increment(1);
+                    listBox1.Items.Add("Processing PBL");
 
-                    string file2header = sr2.ReadLine();
-                    file2Count++;
-                    progressBar1.Increment(1);
-
-                    listBox1.Items.Add("Writing header : "+ file1header);
-                    sw.WriteLine(file1header);
-                    outputCount++;
-
-                    listBox1.Items.Add("Copying PBL...");
-                    while ((sr1.Peek() >= 0) && (file1Count < (length1 - 1)))
+                    // read pbl file
+                    while (sr1.Peek() >= 0)
                     {
-                        sw.WriteLine(sr1.ReadLine());
-                        file1Count++;
+                        pbl_file.addDataLine(sr1.ReadLine());
                         progressBar1.Increment(1);
-                        outputCount++;
                     }
-                    listBox1.Items.Add("PBL copied");
 
-                    listBox1.Items.Add("Copying App...");
-                    while ((sr2.Peek() >= 0) && (file2Count < (length2 - 1)))
+                    if (pbl_file.validData())
                     {
-                        sw.WriteLine(sr2.ReadLine());
-                        file2Count++;
-                        progressBar1.Increment(1);
-                        outputCount++;
+                        listBox1.Items.Add("PBL is valid");
+                        listBox1.Items.Add("Header : " + pbl_file.getHeader());
+                        listBox1.Items.Add("Data line count : " + pbl_file.getDataCount());
+                        listBox1.Items.Add("Start Address : " + pbl_file.getStartAddress());
                     }
-                    listBox1.Items.Add("App copied");
+                    else
+                    {
+                        listBox1.Items.Add("PBL is invalid");
+                    }
 
-                    string file1address = sr1.ReadLine();
-                    progressBar1.Increment(1);
+                    listBox1.Items.Add("");
+                    listBox1.Items.Add("Processing App");
 
-                    string file2address = sr2.ReadLine();
-                    progressBar1.Increment(1);
+                    // read app file
+                    while (sr2.Peek() >= 0)
+                    {
+                        app_file.addDataLine(sr2.ReadLine());
+                        progressBar1.Increment(1);
+                    }
 
-                    listBox1.Items.Add("Writing start address : " + file1address);
-                    sw.WriteLine(file1address);
-                    outputCount++;
+                    if (pbl_file.validData())
+                    {
+                        listBox1.Items.Add("App is valid");
+                        listBox1.Items.Add("Header : " + app_file.getHeader());
+                        listBox1.Items.Add("Data line count : " + app_file.getDataCount());
+                        listBox1.Items.Add("Start Address : " + app_file.getStartAddress());
+                    }
+                    else
+                    {
+                        listBox1.Items.Add("App is invalid");
+                    }
 
-                    listBox1.Items.Add("Written " + outputCount + " lines");
+                    listBox1.Items.Add("");
+                    listBox1.Items.Add("Writing output file");
+                    listBox1.Items.Add("Writing header : " + pbl_file.getHeader());
+                    sw.WriteLine(pbl_file.getHeader());
+
+                    listBox1.Items.Add("Writing " + (pbl_file.getDataCount() + app_file.getDataCount()) + " data lines");
+                    int i;
+                    for (i = 0; i < pbl_file.getDataCount(); i++)
+                    {
+                        sw.WriteLine(pbl_file.getDataLine(i));
+                        progressBar1.Increment(1);
+                    }
+                    for (i = 0; i < app_file.getDataCount(); i++)
+                    {
+                        sw.WriteLine(app_file.getDataLine(i));
+                        progressBar1.Increment(1);
+                    }
+
+                    listBox1.Items.Add("Writing start address : " + pbl_file.getStartAddress());
+                    sw.WriteLine(pbl_file.getStartAddress());
+
                     listBox1.Items.Add("Concatenation complete.");
                 }
                 catch
