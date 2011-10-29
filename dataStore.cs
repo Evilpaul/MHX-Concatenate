@@ -86,26 +86,33 @@ namespace mhx_concatenate
 
         private void addDataLine(string dataLine)
         {
-            // make sure this is valid S-Rec
-            if (dataLine[0] == 'S')
+            try
             {
-                if (dataLine[1] == '0')
+                // make sure this is valid S-Rec
+                if (dataLine[0] == 'S')
                 {
-                    // header line
-                    parentForm.addLogText("Found header : " + dataLine);
-                    header = dataLine;
+                    if (dataLine[1] == '0')
+                    {
+                        // header line
+                        parentForm.addLogText("Found header : " + dataLine);
+                        header = dataLine;
+                    }
+                    else if (dataLine[1] == '8')
+                    {
+                        // start address line
+                        parentForm.addLogText("Found start address : " + dataLine);
+                        startAddress = dataLine;
+                    }
+                    else
+                    {
+                        // data line
+                        data.Add(dataLine);
+                    }
                 }
-                else if (dataLine[1] == '8')
-                {
-                    // start address line
-                    parentForm.addLogText("Found start address : " + dataLine);
-                    startAddress = dataLine;
-                }
-                else
-                {
-                    // data line
-                    data.Add(dataLine);
-                }
+            }
+            catch
+            {
+                parentForm.addLogText("Exception processing line " + getDataCount());
             }
         }
     }
