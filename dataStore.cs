@@ -38,7 +38,7 @@ namespace mhx_concatenate
                     addDataLine(sr.ReadLine());
                 }
 
-                parentForm.addLogText(getDataCount() + "data lines found");
+                parentForm.addLogText(getDataCount() + " data lines found");
 
                 if (isDataValid())
                 {
