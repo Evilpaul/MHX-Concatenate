@@ -95,25 +95,88 @@ namespace mhx_concatenate
         {
             try
             {
-                // make sure this is valid S-Rec
-                if (dataLine[0] == 'S')
+                char startCode = dataLine[0];
+                char recordType = dataLine[1];
+                int byteCount = Convert.ToInt32(dataLine.Substring(2, 2), 16);
+                int[] value = new int[byteCount - 1];
+                int checksum = Convert.ToInt32(dataLine.Substring(dataLine.Length - 2, 2), 16);
+
+                for (int i = 0; i < byteCount - 1; i++)
                 {
-                    if (dataLine[1] == '0')
+                    value[i] = Convert.ToInt32(dataLine.Substring(4 + (i * 2), 2), 16);
+                }
+
+                // make sure this is valid S-Rec
+                if (startCode == 'S')
+                {
+                    switch (recordType)
                     {
-                        // header line
-                        parentForm.addLogText("Found header : " + dataLine);
-                        header = dataLine;
-                    }
-                    else if (dataLine[1] == '8')
-                    {
-                        // start address line
-                        parentForm.addLogText("Found start address : " + dataLine);
-                        startAddress = dataLine;
-                    }
-                    else
-                    {
-                        // data line
-                        data.Add(dataLine);
+                        case '0':
+                            {
+                                // header line
+                                char[] head = new char[value.Length - 2];
+                                for (int i = 0; i < value.Length - 2; i++)
+                                {
+                                    head[i] = (char)value[i + 2];
+                                }
+                                string headline = new string(head);
+
+                                // header line
+                                parentForm.addLogText("Found header : " + headline);
+                                parentForm.addLogText("checksum : 0x" + checksum.ToString("X2"));
+                                header = dataLine;
+                            }
+                            break;
+                        case '1':
+                            {
+                                // data sequence line (2 byte address)
+                                data.Add(dataLine);
+                            }
+                            break;
+                        case '2':
+                            {
+                                // data sequence line (3 byte address)
+                                data.Add(dataLine);
+                            }
+                            break;
+                        case '3':
+                            {
+                                // data sequence line (4 byte address)
+                                data.Add(dataLine);
+                            }
+                            break;
+                        case '5':
+                            {
+                                // record count
+                                data.Add(dataLine);
+                            }
+                            break;
+                        case '7':
+                            {
+                                // end of block (4 byte address)
+                                parentForm.addLogText("Found start address : " + dataLine);
+                                startAddress = dataLine;
+                            }
+                            break;
+                        case '8':
+                            {
+                                // end of block (3 byte address)
+                                parentForm.addLogText("Found start address : " + dataLine);
+                                startAddress = dataLine;
+                            }
+                            break;
+                        case '9':
+                            {
+                                // end of block (2 byte address)
+                                parentForm.addLogText("Found start address : " + dataLine);
+                                startAddress = dataLine;
+                            }
+                            break;
+                        default:
+                            {
+                                errorCount++;
+                            }
+                            break;
                     }
                 }
             }
