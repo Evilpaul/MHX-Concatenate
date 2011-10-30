@@ -11,6 +11,7 @@ namespace mhx_concatenate
         private string header = "";
         private List<string> data = new List<string>();
         private string startAddress = "";
+        private int errorCount = 0;
         private Form1 parentForm;
 
         public dataStore(Form1 pf)
@@ -22,6 +23,7 @@ namespace mhx_concatenate
         {
             header = "";
             startAddress = "";
+            errorCount = 0;
             data.Clear();
         }
 
@@ -39,6 +41,11 @@ namespace mhx_concatenate
                 }
 
                 parentForm.addLogText(getDataCount() + " data lines found");
+
+                if (errorCount > 0)
+                {
+                    parentForm.addLogText(errorCount + " errors while processing file");
+                }
 
                 if (isDataValid())
                 {
@@ -112,7 +119,7 @@ namespace mhx_concatenate
             }
             catch
             {
-                parentForm.addLogText("Exception processing line " + getDataCount());
+                errorCount++;
             }
         }
     }
