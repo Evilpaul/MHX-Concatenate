@@ -14,6 +14,7 @@ namespace mhx_concatenate
     {
         private dataStore pbl_file;
         private dataStore app_file;
+        private bool saveFileOK = false;
 
         public Form1()
         {
@@ -28,11 +29,15 @@ namespace mhx_concatenate
             listBox1.Items.Add(logText);
         }
 
-        private void checkOpenFilesSelected()
+        private void checkValidFiles()
         {
-            if (pbl_file.isDataValid() && app_file.isDataValid())
+            if (pbl_file.isDataValid() && app_file.isDataValid() && saveFileOK)
             {
-                button4.Enabled = true;
+                button1.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = false;
             }
         }
 
@@ -121,19 +126,20 @@ namespace mhx_concatenate
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            button1.Enabled = true;
+            saveFileOK = true;
+            checkValidFiles();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             pbl_file.processFile(openFileDialog1.FileName);
-            checkOpenFilesSelected();
+            checkValidFiles();
         }
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
             app_file.processFile(openFileDialog2.FileName);
-            checkOpenFilesSelected();
+            checkValidFiles();
         }
     }
 }
