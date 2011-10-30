@@ -64,8 +64,8 @@ namespace mhx_concatenate
         {
             bool returnVal = true;
 
-            if (string.Compare(header, "") == 0) returnVal = false;
-            if (string.Compare(startAddress, "") == 0) returnVal = false;
+            if (string.IsNullOrEmpty(header)) returnVal = false;
+            if (string.IsNullOrEmpty(startAddress)) returnVal = false;
             if (data.Count == 0) returnVal = false;
 
             return returnVal;
