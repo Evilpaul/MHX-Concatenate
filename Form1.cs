@@ -12,16 +12,14 @@ namespace mhx_concatenate
 {
     public partial class Form1 : Form
     {
-        private dataStore pbl_file;
-        private dataStore app_file;
+        private bool pblFileOK = false;
+        private bool appFileOK = false;
         private bool saveFileOK = false;
 
         public Form1()
         {
             InitializeComponent();
 
-            pbl_file = new dataStore(this);
-            app_file = new dataStore(this);
         }
 
         public void addLogText(string logText)
@@ -31,7 +29,7 @@ namespace mhx_concatenate
 
         private void checkValidFiles()
         {
-            if (pbl_file.isDataValid() && app_file.isDataValid() && saveFileOK)
+            if (pblFileOK && appFileOK && saveFileOK)
             {
                 button1.Enabled = true;
             }
@@ -43,6 +41,12 @@ namespace mhx_concatenate
 
         private void button1_Click(object sender, EventArgs e)
         {
+            dataStore pbl_file = new dataStore(this);
+            dataStore app_file = new dataStore(this);
+
+            pbl_file.processFile(openFileDialog1.FileName);
+            app_file.processFile(openFileDialog2.FileName);
+
             button1.Enabled = false;
             progressBar1.Minimum = 0;
             progressBar1.Maximum = pbl_file.getDataCount() + app_file.getDataCount() + 2;
@@ -132,13 +136,13 @@ namespace mhx_concatenate
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            pbl_file.processFile(openFileDialog1.FileName);
+            pblFileOK = true;
             checkValidFiles();
         }
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
-            app_file.processFile(openFileDialog2.FileName);
+            appFileOK = true;
             checkValidFiles();
         }
     }
