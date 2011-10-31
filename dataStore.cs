@@ -123,7 +123,7 @@ namespace mhx_concatenate
 
                                 // header line
                                 parentForm.addLogText("Found header : " + headline);
-                                parentForm.addLogText("checksum : 0x" + checksum.ToString("X2"));
+                                //parentForm.addLogText("checksum : 0x" + checksum.ToString("X2"));
                                 header = dataLine;
                             }
                             break;
