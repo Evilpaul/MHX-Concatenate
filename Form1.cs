@@ -58,7 +58,7 @@ namespace mhx_concatenate
                 try
                 {
                     addLogText("Writing output file");
-                    addLogText("Writing header : " + pbl_file.getHeader());
+                    addLogText("Writing header : " + pbl_file.getHeaderDecoded());
                     sw.WriteLine(pbl_file.getHeader());
                     progressBar1.Increment(1);
 

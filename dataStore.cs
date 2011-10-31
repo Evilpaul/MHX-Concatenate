@@ -9,6 +9,7 @@ namespace mhx_concatenate
     class dataStore
     {
         private string header = "";
+        private string headerDecoded = "";
         private List<string> data = new List<string>();
         private string startAddress = "";
         private int errorCount = 0;
@@ -22,6 +23,7 @@ namespace mhx_concatenate
         private void initialise()
         {
             header = "";
+            headerDecoded = "";
             startAddress = "";
             errorCount = 0;
             data.Clear();
@@ -76,6 +78,11 @@ namespace mhx_concatenate
             return header;
         }
 
+        public string getHeaderDecoded()
+        {
+            return headerDecoded;
+        }
+
         public int getDataCount()
         {
             return data.Count;
@@ -119,10 +126,10 @@ namespace mhx_concatenate
                                 {
                                     head[i] = (char)value[i + 2];
                                 }
-                                string headline = new string(head);
+                                headerDecoded = new string(head);
 
                                 // header line
-                                parentForm.addLogText("Found header : " + headline);
+                                parentForm.addLogText("Found header : " + headerDecoded);
                                 //parentForm.addLogText("checksum : 0x" + checksum.ToString("X2"));
                                 header = dataLine;
                             }
