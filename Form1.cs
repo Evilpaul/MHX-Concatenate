@@ -44,6 +44,8 @@ namespace mhx_concatenate
             dataStore pbl_file = new dataStore(this);
             dataStore app_file = new dataStore(this);
 
+            listBox1.Items.Clear();
+
             pbl_file.processFile(openFileDialog1.FileName);
             app_file.processFile(openFileDialog2.FileName);
 
