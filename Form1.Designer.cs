@@ -160,7 +160,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.ShowIcon = false;
             this.Text = "MHX Concatenate";
             this.ResumeLayout(false);
             this.PerformLayout();
