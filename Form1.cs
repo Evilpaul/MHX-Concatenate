@@ -71,7 +71,7 @@ namespace mhx_concatenate
                     sw.WriteLine(pbl_file.getHeader());
                     progressBar1.Increment(1);
 
-                    addLogText("Writing " + (pbl_file.getDataCount() + app_file.getDataCount()) + " data lines");
+                    addLogText("Writing " + (pbl_file.getDataCount() + app_file.getDataCount() + pno_file.getDataCount()) + " data lines");
                     int i;
                     for (i = 0; i < pbl_file.getDataCount(); i++)
                     {
