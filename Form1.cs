@@ -14,6 +14,7 @@ namespace mhx_concatenate
     {
         private bool pblFileOK = false;
         private bool appFileOK = false;
+        private bool pnoFileOK = false;
         private bool saveFileOK = false;
 
         public Form1()
@@ -29,7 +30,8 @@ namespace mhx_concatenate
 
         private void checkValidFiles()
         {
-            if (pblFileOK && appFileOK && saveFileOK)
+            if (pblFileOK && appFileOK && saveFileOK &&
+                ((!checkBox1.Checked) || (checkBox1.Checked && pnoFileOK)))
             {
                 button1.Enabled = true;
             }
@@ -43,15 +45,20 @@ namespace mhx_concatenate
         {
             dataStore pbl_file = new dataStore(this);
             dataStore app_file = new dataStore(this);
+            dataStore pno_file = new dataStore(this);
 
             listBox1.Items.Clear();
 
             pbl_file.processFile(openFileDialog1.FileName);
             app_file.processFile(openFileDialog2.FileName);
+            if (checkBox1.Checked)
+            {
+                pno_file.processFile(openFileDialog3.FileName);
+            }
 
             button1.Enabled = false;
             progressBar1.Minimum = 0;
-            progressBar1.Maximum = pbl_file.getDataCount() + app_file.getDataCount() + 2;
+            progressBar1.Maximum = pbl_file.getDataCount() + app_file.getDataCount() + pno_file.getDataCount() + 2;
             progressBar1.Value = progressBar1.Minimum;
 
             try
@@ -74,6 +81,11 @@ namespace mhx_concatenate
                     for (i = 0; i < app_file.getDataCount(); i++)
                     {
                         sw.WriteLine(app_file.getDataLine(i));
+                        progressBar1.Increment(1);
+                    }
+                    for (i = 0; i < pno_file.getDataCount(); i++)
+                    {
+                        sw.WriteLine(pno_file.getDataLine(i));
                         progressBar1.Increment(1);
                     }
 
@@ -120,6 +132,17 @@ namespace mhx_concatenate
             }
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            // Show the dialog and get result.
+            DialogResult result = openFileDialog3.ShowDialog();
+            if (result == DialogResult.OK) // Test result.
+            {
+                textBox1.Text = openFileDialog3.FileName;
+            }
+
+        }
+
         private void button4_Click(object sender, EventArgs e)
         {
             // Show the dialog and get result.
@@ -145,6 +168,26 @@ namespace mhx_concatenate
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
             appFileOK = true;
+            checkValidFiles();
+        }
+
+        private void openFileDialog3_FileOk(object sender, CancelEventArgs e)
+        {
+            pnoFileOK = true;
+            checkValidFiles();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                button5.Enabled = true;
+            }
+            else
+            {
+                button5.Enabled = false;
+            }
+
             checkValidFiles();
         }
     }
