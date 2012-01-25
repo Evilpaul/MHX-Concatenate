@@ -49,7 +49,7 @@
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(463, 329);
+            this.button1.Location = new System.Drawing.Point(463, 326);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 23);
             this.button1.TabIndex = 0;
@@ -59,7 +59,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 329);
+            this.progressBar1.Location = new System.Drawing.Point(12, 326);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(445, 23);
             this.progressBar1.TabIndex = 2;
@@ -115,7 +115,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 70);
+            this.button4.Location = new System.Drawing.Point(12, 93);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 14;
@@ -125,7 +125,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(93, 72);
+            this.textBox4.Location = new System.Drawing.Point(93, 95);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(450, 20);
@@ -141,7 +141,7 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 124);
+            this.listBox1.Location = new System.Drawing.Point(12, 121);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.listBox1.Size = new System.Drawing.Size(531, 199);
@@ -150,7 +150,7 @@
             // button5
             // 
             this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(33, 94);
+            this.button5.Location = new System.Drawing.Point(33, 67);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(86, 23);
             this.button5.TabIndex = 18;
@@ -160,7 +160,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(125, 97);
+            this.textBox1.Location = new System.Drawing.Point(125, 69);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(418, 20);
@@ -169,7 +169,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 99);
+            this.checkBox1.Location = new System.Drawing.Point(12, 72);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(15, 14);
             this.checkBox1.TabIndex = 20;
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 364);
+            this.ClientSize = new System.Drawing.Size(555, 361);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button5);
