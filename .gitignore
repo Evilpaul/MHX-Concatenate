@@ -8,4 +8,6 @@
 *.tlog
 *.cache
 *.FileListAbsolute.txt
-
+*.CodeAnalysisLog.xml
+*.lastcodeanalysissucceeded
+*.suo
