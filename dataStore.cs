@@ -27,6 +27,7 @@ namespace mhx_concatenate
             headerDecoded = "";
             startAddress = "";
             errorCount = 0;
+            addressSize = 2;
             data.Clear();
         }
 
