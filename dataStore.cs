@@ -13,6 +13,7 @@ namespace mhx_concatenate
         private List<string> data = new List<string>();
         private string startAddress = "";
         private int errorCount = 0;
+        private uint addressSize = 2;
         private Form1 parentForm;
 
         public dataStore(Form1 pf)
@@ -98,6 +99,14 @@ namespace mhx_concatenate
             return startAddress;
         }
 
+        private void updateAddressSize(uint value)
+        {
+            if (value > addressSize)
+            {
+                addressSize = value;
+            }
+        }
+
         private void addDataLine(string dataLine)
         {
             try
@@ -143,12 +152,14 @@ namespace mhx_concatenate
                         case '2':
                             {
                                 // data sequence line (3 byte address)
+                                updateAddressSize(3);
                                 data.Add(dataLine);
                             }
                             break;
                         case '3':
                             {
                                 // data sequence line (4 byte address)
+                                updateAddressSize(4);
                                 data.Add(dataLine);
                             }
                             break;
@@ -161,6 +172,7 @@ namespace mhx_concatenate
                         case '7':
                             {
                                 // end of block (4 byte address)
+                                updateAddressSize(4);
                                 parentForm.addLogText("Found start address : " + dataLine);
                                 startAddress = dataLine;
                             }
@@ -168,6 +180,7 @@ namespace mhx_concatenate
                         case '8':
                             {
                                 // end of block (3 byte address)
+                                updateAddressSize(3);
                                 parentForm.addLogText("Found start address : " + dataLine);
                                 startAddress = dataLine;
                             }
