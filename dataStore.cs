@@ -108,6 +108,25 @@ namespace mhx_concatenate
             }
         }
 
+        private byte calcChecksum(byte byteCount, byte[] data)
+        {
+            byte chksum = byteCount;
+
+            // add all data values
+            for (int i = 0; i < data.Length; i++)
+            {
+                chksum = (byte)(chksum + data[i]);
+            }
+
+            // mask to get LSB
+            chksum = (byte)(chksum & 0xff);
+
+            // perform one's complement
+            chksum = (byte)(~chksum);
+
+            return chksum;
+        }
+
         private void addDataLine(string dataLine)
         {
             try
@@ -123,8 +142,10 @@ namespace mhx_concatenate
                     value[i] = Convert.ToByte(dataLine.Substring(4 + (i * 2), 2), 16);
                 }
 
+                byte calcSum = calcChecksum(byteCount, value);
+
                 // make sure this is valid S-Rec
-                if (startCode == 'S')
+                if ((startCode == 'S') && (calcSum == checksum))
                 {
                     switch (recordType)
                     {
