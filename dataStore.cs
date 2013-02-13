@@ -12,7 +12,7 @@ namespace mhx_concatenate
         private string headerDecoded = "";
         private List<string> data = new List<string>();
         private string startAddress = "";
-        private int errorCount = 0;
+        private uint errorCount = 0;
         private uint addressSize = 2;
         private Form1 parentForm;
 
@@ -87,7 +87,7 @@ namespace mhx_concatenate
 
         public int getDataCount()
         {
-            return data.Count;
+            return (int)data.Count;
         }
 
         public string getDataLine(int line)
@@ -114,13 +114,13 @@ namespace mhx_concatenate
             {
                 char startCode = dataLine[0];
                 char recordType = dataLine[1];
-                int byteCount = Convert.ToInt32(dataLine.Substring(2, 2), 16);
-                int[] value = new int[byteCount - 1];
-                int checksum = Convert.ToInt32(dataLine.Substring(dataLine.Length - 2, 2), 16);
+                byte byteCount = Convert.ToByte(dataLine.Substring(2, 2), 16);
+                byte[] value = new byte[byteCount - 1];
+                byte checksum = Convert.ToByte(dataLine.Substring(dataLine.Length - 2, 2), 16);
 
                 for (int i = 0; i < byteCount - 1; i++)
                 {
-                    value[i] = Convert.ToInt32(dataLine.Substring(4 + (i * 2), 2), 16);
+                    value[i] = Convert.ToByte(dataLine.Substring(4 + (i * 2), 2), 16);
                 }
 
                 // make sure this is valid S-Rec
