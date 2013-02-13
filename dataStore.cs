@@ -200,6 +200,10 @@ namespace mhx_concatenate
                             break;
                     }
                 }
+                else
+                {
+                    errorCount++;
+                }
             }
             catch
             {
