@@ -28,38 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.concatenateButton = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.inFile1Button = new System.Windows.Forms.Button();
+            this.inFile1TextBox = new System.Windows.Forms.TextBox();
+            this.inFile2Button = new System.Windows.Forms.Button();
+            this.inFile2TextBox = new System.Windows.Forms.TextBox();
+            this.outFileButton = new System.Windows.Forms.Button();
+            this.outFileTextBox = new System.Windows.Forms.TextBox();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.inFile3Button = new System.Windows.Forms.Button();
+            this.inFile3TextBox = new System.Windows.Forms.TextBox();
+            this.inFile3CheckBox = new System.Windows.Forms.CheckBox();
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
+            this.inFile4CheckBox = new System.Windows.Forms.CheckBox();
+            this.inFile4Button = new System.Windows.Forms.Button();
+            this.inFile4TextBox = new System.Windows.Forms.TextBox();
+            this.openFileDialog4 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
-            // button1
+            // concatenateButton
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(463, 326);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(80, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Concatenate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.concatenateButton.Enabled = false;
+            this.concatenateButton.Location = new System.Drawing.Point(463, 424);
+            this.concatenateButton.Name = "concatenateButton";
+            this.concatenateButton.Size = new System.Drawing.Size(80, 23);
+            this.concatenateButton.TabIndex = 0;
+            this.concatenateButton.Text = "Concatenate";
+            this.concatenateButton.UseVisualStyleBackColor = true;
+            this.concatenateButton.Click += new System.EventHandler(this.concatenateButton_Click);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 326);
+            this.progressBar1.Location = new System.Drawing.Point(12, 424);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(445, 23);
             this.progressBar1.TabIndex = 2;
@@ -77,59 +81,59 @@
             this.openFileDialog1.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // button2
+            // inFile1Button
             // 
-            this.button2.Location = new System.Drawing.Point(12, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "PBL .mhx";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.inFile1Button.Location = new System.Drawing.Point(12, 12);
+            this.inFile1Button.Name = "inFile1Button";
+            this.inFile1Button.Size = new System.Drawing.Size(75, 23);
+            this.inFile1Button.TabIndex = 10;
+            this.inFile1Button.Text = "Input 1";
+            this.inFile1Button.UseVisualStyleBackColor = true;
+            this.inFile1Button.Click += new System.EventHandler(this.inFile1Button_Click);
             // 
-            // textBox2
+            // inFile1TextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(93, 14);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(450, 20);
-            this.textBox2.TabIndex = 11;
+            this.inFile1TextBox.Location = new System.Drawing.Point(93, 14);
+            this.inFile1TextBox.Name = "inFile1TextBox";
+            this.inFile1TextBox.ReadOnly = true;
+            this.inFile1TextBox.Size = new System.Drawing.Size(450, 20);
+            this.inFile1TextBox.TabIndex = 11;
             // 
-            // button3
+            // inFile2Button
             // 
-            this.button3.Location = new System.Drawing.Point(12, 41);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 12;
-            this.button3.Text = "App .mhx";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.inFile2Button.Location = new System.Drawing.Point(12, 41);
+            this.inFile2Button.Name = "inFile2Button";
+            this.inFile2Button.Size = new System.Drawing.Size(75, 23);
+            this.inFile2Button.TabIndex = 12;
+            this.inFile2Button.Text = "Input 2";
+            this.inFile2Button.UseVisualStyleBackColor = true;
+            this.inFile2Button.Click += new System.EventHandler(this.inFile2Button_Click);
             // 
-            // textBox3
+            // inFile2TextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(93, 43);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(450, 20);
-            this.textBox3.TabIndex = 13;
+            this.inFile2TextBox.Location = new System.Drawing.Point(93, 43);
+            this.inFile2TextBox.Name = "inFile2TextBox";
+            this.inFile2TextBox.ReadOnly = true;
+            this.inFile2TextBox.Size = new System.Drawing.Size(450, 20);
+            this.inFile2TextBox.TabIndex = 13;
             // 
-            // button4
+            // outFileButton
             // 
-            this.button4.Location = new System.Drawing.Point(12, 93);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "Output .mhx";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.outFileButton.Location = new System.Drawing.Point(12, 125);
+            this.outFileButton.Name = "outFileButton";
+            this.outFileButton.Size = new System.Drawing.Size(75, 23);
+            this.outFileButton.TabIndex = 14;
+            this.outFileButton.Text = "Output";
+            this.outFileButton.UseVisualStyleBackColor = true;
+            this.outFileButton.Click += new System.EventHandler(this.outFileButton_Click);
             // 
-            // textBox4
+            // outFileTextBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(93, 95);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(450, 20);
-            this.textBox4.TabIndex = 15;
+            this.outFileTextBox.Location = new System.Drawing.Point(93, 127);
+            this.outFileTextBox.Name = "outFileTextBox";
+            this.outFileTextBox.ReadOnly = true;
+            this.outFileTextBox.Size = new System.Drawing.Size(450, 20);
+            this.outFileTextBox.TabIndex = 15;
             // 
             // openFileDialog2
             // 
@@ -141,40 +145,40 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 121);
+            this.listBox1.Location = new System.Drawing.Point(12, 154);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBox1.Size = new System.Drawing.Size(531, 199);
+            this.listBox1.Size = new System.Drawing.Size(531, 264);
             this.listBox1.TabIndex = 17;
             // 
-            // button5
+            // inFile3Button
             // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(33, 67);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(86, 23);
-            this.button5.TabIndex = 18;
-            this.button5.Text = "Part No. .mhx";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.inFile3Button.Enabled = false;
+            this.inFile3Button.Location = new System.Drawing.Point(33, 67);
+            this.inFile3Button.Name = "inFile3Button";
+            this.inFile3Button.Size = new System.Drawing.Size(86, 23);
+            this.inFile3Button.TabIndex = 18;
+            this.inFile3Button.Text = "Input 3";
+            this.inFile3Button.UseVisualStyleBackColor = true;
+            this.inFile3Button.Click += new System.EventHandler(this.inFile3Button_Click);
             // 
-            // textBox1
+            // inFile3TextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(125, 69);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(418, 20);
-            this.textBox1.TabIndex = 19;
+            this.inFile3TextBox.Location = new System.Drawing.Point(125, 69);
+            this.inFile3TextBox.Name = "inFile3TextBox";
+            this.inFile3TextBox.ReadOnly = true;
+            this.inFile3TextBox.Size = new System.Drawing.Size(418, 20);
+            this.inFile3TextBox.TabIndex = 19;
             // 
-            // checkBox1
+            // inFile3CheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 72);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 20;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.inFile3CheckBox.AutoSize = true;
+            this.inFile3CheckBox.Location = new System.Drawing.Point(12, 72);
+            this.inFile3CheckBox.Name = "inFile3CheckBox";
+            this.inFile3CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.inFile3CheckBox.TabIndex = 20;
+            this.inFile3CheckBox.UseVisualStyleBackColor = true;
+            this.inFile3CheckBox.CheckedChanged += new System.EventHandler(this.inFile3CheckBox_CheckedChanged);
             // 
             // openFileDialog3
             // 
@@ -182,23 +186,62 @@
             this.openFileDialog3.Filter = "Motorola Hex Files (.mhx)|*.mhx";
             this.openFileDialog3.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog3_FileOk);
             // 
+            // inFile4CheckBox
+            // 
+            this.inFile4CheckBox.AutoSize = true;
+            this.inFile4CheckBox.Location = new System.Drawing.Point(12, 96);
+            this.inFile4CheckBox.Name = "inFile4CheckBox";
+            this.inFile4CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.inFile4CheckBox.TabIndex = 21;
+            this.inFile4CheckBox.UseVisualStyleBackColor = true;
+            this.inFile4CheckBox.CheckedChanged += new System.EventHandler(this.inFile4CheckBox_CheckedChanged);
+            // 
+            // inFile4Button
+            // 
+            this.inFile4Button.Enabled = false;
+            this.inFile4Button.Location = new System.Drawing.Point(33, 96);
+            this.inFile4Button.Name = "inFile4Button";
+            this.inFile4Button.Size = new System.Drawing.Size(86, 23);
+            this.inFile4Button.TabIndex = 22;
+            this.inFile4Button.Text = "Input 4";
+            this.inFile4Button.UseVisualStyleBackColor = true;
+            this.inFile4Button.Click += new System.EventHandler(this.inFile4Button_Click);
+            // 
+            // inFile4TextBox
+            // 
+            this.inFile4TextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.inFile4TextBox.Location = new System.Drawing.Point(125, 98);
+            this.inFile4TextBox.Name = "inFile4TextBox";
+            this.inFile4TextBox.ReadOnly = true;
+            this.inFile4TextBox.Size = new System.Drawing.Size(418, 20);
+            this.inFile4TextBox.TabIndex = 23;
+            // 
+            // openFileDialog4
+            // 
+            this.openFileDialog4.DefaultExt = "mhx";
+            this.openFileDialog4.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.openFileDialog4.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog4_FileOk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 361);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button5);
+            this.ClientSize = new System.Drawing.Size(555, 459);
+            this.Controls.Add(this.inFile4TextBox);
+            this.Controls.Add(this.inFile4Button);
+            this.Controls.Add(this.inFile4CheckBox);
+            this.Controls.Add(this.inFile3CheckBox);
+            this.Controls.Add(this.inFile3TextBox);
+            this.Controls.Add(this.inFile3Button);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.outFileTextBox);
+            this.Controls.Add(this.outFileButton);
+            this.Controls.Add(this.inFile2TextBox);
+            this.Controls.Add(this.inFile2Button);
+            this.Controls.Add(this.inFile1TextBox);
+            this.Controls.Add(this.inFile1Button);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.concatenateButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -210,22 +253,26 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button concatenateButton;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button inFile1Button;
+        private System.Windows.Forms.TextBox inFile1TextBox;
+        private System.Windows.Forms.Button inFile2Button;
+        private System.Windows.Forms.TextBox inFile2TextBox;
+        private System.Windows.Forms.Button outFileButton;
+        private System.Windows.Forms.TextBox outFileTextBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button inFile3Button;
+        private System.Windows.Forms.TextBox inFile3TextBox;
+        private System.Windows.Forms.CheckBox inFile3CheckBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
+        private System.Windows.Forms.CheckBox inFile4CheckBox;
+        private System.Windows.Forms.Button inFile4Button;
+        private System.Windows.Forms.TextBox inFile4TextBox;
+        private System.Windows.Forms.OpenFileDialog openFileDialog4;
     }
 }
 
