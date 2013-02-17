@@ -71,14 +71,14 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "mhx";
-            this.saveFileDialog1.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.saveFileDialog1.Filter = "Motorola Hex Files (.mhx;.mot)|*.mhx;*.mot";
             this.saveFileDialog1.Title = "Save As...";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "mhx";
-            this.openFileDialog1.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.openFileDialog1.Filter = "Motorola Hex Files (.mhx;.mot)|*.mhx;*.mot";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // inFile1Button
@@ -138,7 +138,7 @@
             // openFileDialog2
             // 
             this.openFileDialog2.DefaultExt = "mhx";
-            this.openFileDialog2.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.openFileDialog2.Filter = "Motorola Hex Files (.mhx;.mot)|*.mhx;*.mot";
             this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
             // 
             // listBox1
@@ -183,7 +183,7 @@
             // openFileDialog3
             // 
             this.openFileDialog3.DefaultExt = "mhx";
-            this.openFileDialog3.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.openFileDialog3.Filter = "Motorola Hex Files (.mhx;.mot)|*.mhx;*.mot";
             this.openFileDialog3.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog3_FileOk);
             // 
             // inFile4CheckBox
@@ -219,7 +219,7 @@
             // openFileDialog4
             // 
             this.openFileDialog4.DefaultExt = "mhx";
-            this.openFileDialog4.Filter = "Motorola Hex Files (.mhx)|*.mhx";
+            this.openFileDialog4.Filter = "Motorola Hex Files (.mhx;.mot)|*.mhx;*.mot";
             this.openFileDialog4.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog4_FileOk);
             // 
             // Form1
