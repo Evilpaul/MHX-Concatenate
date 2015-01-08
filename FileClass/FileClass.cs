@@ -103,6 +103,9 @@ namespace mhx_concatenate
 
                 byte calcSum = Checksum.calcChecksum(byteCount, value);
 
+                if (calcSum != checksum)
+                    parentForm.addLogText("Invalid Checksum : " + checksum + ", should be :" + calcSum);
+
                 // make sure this is valid S-Rec
                 if ((startCode == 'S') && (calcSum == checksum))
                 {
