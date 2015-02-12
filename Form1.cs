@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace mhx_concatenate
 {
@@ -12,15 +14,12 @@ namespace mhx_concatenate
         private bool inFile3OK = false;
         private bool inFile4OK = false; 
         private bool outFileOK = false;
+        private CancellationTokenSource cts;
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        public void addLogText(string logText)
-        {
-            listBox1.Items.Add(logText);
+            cts = new CancellationTokenSource();
         }
 
         private void checkValidFiles()
@@ -37,87 +36,104 @@ namespace mhx_concatenate
             }
         }
 
-        private void concatenateButton_Click(object sender, EventArgs e)
+        private async Task<int> DoAsync(string inFile1, string inFile2, string inFile3, string inFile4, string outFile, IProgress<int> progress, IProgress<string> progress_str, CancellationToken token)
         {
-            concatenateButton.Enabled = false;
+            int no_done = 0;
+            int no_total = 0;
+            FileClass the_file = new FileClass(this, progress_str);
 
+            listBox1.Items.Clear();
+
+            await the_file.processFile(inFile1, token);
+
+            await the_file.processFile(inFile2, token);
+
+            if (inFile3CheckBox.Checked)
             {
-                FileClass the_file = new FileClass(this);
+                await the_file.processFile(inFile3, token);
+            }
 
-                listBox1.Items.Clear();
+            if (inFile4CheckBox.Checked)
+            {
+                await the_file.processFile(inFile4, token);
+            }
 
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = 4;
+            no_total = the_file.getDataCount() + 2;
+            progress.Report(0);
 
-                the_file.processFile(openFileDialog1.FileName);
-
-                progressBar1.Increment(1);
-
-                the_file.processFile(openFileDialog2.FileName);
-
-                progressBar1.Increment(1);
-
-                if (inFile3CheckBox.Checked)
-                {
-                    the_file.processFile(openFileDialog3.FileName);
-                }
-
-                progressBar1.Increment(1);
-
-                if (inFile4CheckBox.Checked)
-                {
-                    the_file.processFile(openFileDialog4.FileName);
-                }
-
-                progressBar1.Increment(1);
- 
-                progressBar1.Minimum = 0;
-                progressBar1.Maximum = the_file.getDataCount() + 2;
-                progressBar1.Value = progressBar1.Minimum;
-
+            try
+            {
+                StreamWriter sw = new StreamWriter(outFile);
                 try
                 {
-                    StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
-                    try
-                    {
-                        addLogText("Writing output file");
-                        addLogText("Writing header : " + the_file.getHeaderDecoded());
-                        sw.WriteLine(the_file.getHeader());
-                        progressBar1.Increment(1);
+                    progress_str.Report("Writing output file");
+                    progress_str.Report("Writing header : " + the_file.getHeaderDecoded());
+                    await sw.WriteLineAsync(the_file.getHeader());
+                    no_done++;
+                    progress.Report((no_done / no_total) * 100);
 
-                        addLogText("Writing " + the_file.getDataCount() + " data lines");
-                        int i;
-                        for (i = 0; i < the_file.getDataCount(); i++)
-                        {
-                            sw.WriteLine(the_file.getDataLine(i));
-                            progressBar1.Increment(1);
-                        }
-
-                        addLogText("Writing start address : " + the_file.getDecodedStartAddress());
-                        sw.WriteLine(the_file.getStartAddress());
-                        progressBar1.Increment(1);
-
-                        addLogText("Concatenation complete.");
-                    }
-                    catch
+                    progress_str.Report("Writing " + the_file.getDataCount() + " data lines");
+                    int i;
+                    for (i = 0; i < the_file.getDataCount(); i++)
                     {
-                        addLogText("Exception caught processing files!");
+                        await sw.WriteLineAsync(the_file.getDataLine(i));
+                        no_done++;
+                        double blah = (double)no_done / (double)no_total;
+                        progress.Report((int)(blah * 100));
                     }
-                    finally
-                    {
-                        sw.Close();
-                    }
+
+                    progress_str.Report("Writing start address : " + the_file.getDecodedStartAddress());
+                    await sw.WriteLineAsync(the_file.getStartAddress());
+                    progress.Report(100);
+
+                    progress_str.Report("Concatenation complete.");
                 }
                 catch
                 {
-                    addLogText("Exception caught opening files!");
+                    progress_str.Report("Exception caught processing files!");
+                }
+                finally
+                {
+                    sw.Close();
                 }
             }
+            catch
+            {
+                progress_str.Report("Exception caught opening files!");
+            }
+            
+            return 1;
+        }
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+        private async void concatenateButton_Click(object sender, EventArgs e)
+        {
+            concatenateButton.Enabled = false;
 
-            concatenateButton.Enabled = true;
+            IProgress<string> progress_str = new Progress<string>(status =>
+            {
+                listBox1.Items.Add(status);
+            });
+
+            try
+            {
+                IProgress<int> progress = new Progress<int>(percent =>
+                {
+                    progressBar1.Value = percent;
+                });
+
+                await new Form1().DoAsync(openFileDialog1.FileName, openFileDialog2.FileName, openFileDialog3.FileName, openFileDialog4.FileName, saveFileDialog1.FileName, progress, progress_str, cts.Token);
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            catch
+            {
+                progress_str.Report("Exception caught processing files!");
+            }
+            finally
+            {
+                concatenateButton.Enabled = true;
+            }
         }
 
         private void inFile1Button_Click(object sender, EventArgs e)
@@ -226,6 +242,12 @@ namespace mhx_concatenate
             }
 
             checkValidFiles();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Request cancellation.
+            cts.Cancel();
         }
     }
 }

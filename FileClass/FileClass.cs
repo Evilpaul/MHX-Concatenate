@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using FileClass;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace mhx_concatenate
 {
@@ -14,14 +16,16 @@ namespace mhx_concatenate
         private uint errorCount = 0;
         private uint lineCount = 0;
         private Form1 parentForm;
+        private IProgress<string> output_str;
 
         private Header testHeader;
         private Data testData;
         private StartAddr testSAddr;
 
-        public FileClass(Form1 pf)
+        public FileClass(Form1 pf, IProgress<string> progress_str)
         {
             parentForm = pf;
+            output_str = progress_str;
 
             errorCount = 0;
             lineCount = 0;
@@ -31,29 +35,36 @@ namespace mhx_concatenate
             testSAddr = new StartAddr();
         }
 
-        public void processFile(string file)
+        public async Task<int> processFile(string file, CancellationToken token)
         {
             errorCount = 0;
             lineCount = 0;
 
             using (StreamReader sr = new StreamReader(file))
             {
-                parentForm.addLogText("Processing " + file);
-
+                output_str.Report("Processing " + file);
                 while (sr.Peek() >= 0)
                 {
-                    addDataLine(sr.ReadLine());
+                    if (token.IsCancellationRequested)
+                    {
+                        output_str.Report("Operation Cancelled");
+                        break;
+                    }
+
+                    addDataLine(await sr.ReadLineAsync());
                 }
 
-                parentForm.addLogText(lineCount + " data lines found");
+                output_str.Report(lineCount + " data lines found");
 
                 if (errorCount > 0)
                 {
-                    parentForm.addLogText(errorCount + " errors while processing file");
+                    output_str.Report(errorCount + " errors while processing file");
                 }
 
-                parentForm.addLogText("");
+                output_str.Report("");
             }
+
+            return 1;
         }
 
         public string getHeader()
@@ -104,7 +115,7 @@ namespace mhx_concatenate
                 byte calcSum = Checksum.calcChecksum(byteCount, value);
 
                 if (calcSum != checksum)
-                    parentForm.addLogText("Invalid Checksum : " + checksum + ", should be :" + calcSum);
+                    output_str.Report("Invalid Checksum : " + checksum + ", should be :" + calcSum);
 
                 // make sure this is valid S-Rec
                 if ((startCode == 'S') && (calcSum == checksum))
@@ -117,7 +128,7 @@ namespace mhx_concatenate
                                 string header = Header.decodeData(value, ADDR_SIZE_2, value.Length - CHKSUM_SIZE);
                                 testHeader.setHeader(header, dataLine);
 
-                                parentForm.addLogText("Found header : " + header);
+                                output_str.Report("Found header : " + header);
                             }
                             break;
                         case '1':
@@ -151,7 +162,7 @@ namespace mhx_concatenate
                                 // end of block (4 byte address)
                                 uint addr = StartAddr.processAddress(value, 0, ADDR_SIZE_4);
                                 testSAddr.setStartAddr(addr, dataLine);
-                                parentForm.addLogText("Found start address : " + String.Format("{0:X8}", addr));
+                                output_str.Report("Found start address : " + String.Format("{0:X8}", addr));
                             }
                             break;
                         case '8':
@@ -159,7 +170,7 @@ namespace mhx_concatenate
                                 // end of block (3 byte address)
                                 uint addr = StartAddr.processAddress(value, 0, ADDR_SIZE_3);
                                 testSAddr.setStartAddr(addr, dataLine);
-                                parentForm.addLogText("Found start address : " + String.Format("{0:X8}", addr));
+                                output_str.Report("Found start address : " + String.Format("{0:X8}", addr));
                             }
                             break;
                         case '9':
@@ -167,7 +178,7 @@ namespace mhx_concatenate
                                 // end of block (2 byte address)
                                 uint addr = StartAddr.processAddress(value, 0, ADDR_SIZE_2);
                                 testSAddr.setStartAddr(addr, dataLine);
-                                parentForm.addLogText("Found start address : " + String.Format("{0:X8}", addr));
+                                output_str.Report("Found start address : " + String.Format("{0:X8}", addr));
                             }
                             break;
                         default:
