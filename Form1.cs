@@ -42,18 +42,16 @@ namespace mhx_concatenate
             int no_total = 0;
             FileClass the_file = new FileClass(this, progress_str);
 
-            listBox1.Items.Clear();
-
             await the_file.processFile(inFile1, token);
 
             await the_file.processFile(inFile2, token);
 
-            if (inFile3CheckBox.Checked)
+            if (!String.IsNullOrEmpty(inFile3))
             {
                 await the_file.processFile(inFile3, token);
             }
 
-            if (inFile4CheckBox.Checked)
+            if (!String.IsNullOrEmpty(inFile4))
             {
                 await the_file.processFile(inFile4, token);
             }
@@ -121,12 +119,14 @@ namespace mhx_concatenate
                     progressBar1.Value = percent;
                 });
 
-                await new Form1().DoAsync(openFileDialog1.FileName, openFileDialog2.FileName, openFileDialog3.FileName, openFileDialog4.FileName, saveFileDialog1.FileName, progress, progress_str, cts.Token);
+                listBox1.Items.Clear();
+
+                await new Form1().DoAsync(openFileDialog1.FileName, openFileDialog2.FileName, (inFile3CheckBox.Checked ? openFileDialog3.FileName : null), (inFile4CheckBox.Checked ? openFileDialog4.FileName : null), saveFileDialog1.FileName, progress, progress_str, cts.Token);
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            catch
+            catch(Exception ex)
             {
                 progress_str.Report("Exception caught processing files!");
             }
