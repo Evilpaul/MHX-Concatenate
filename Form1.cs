@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace mhx_concatenate
 {
@@ -36,24 +37,15 @@ namespace mhx_concatenate
             }
         }
 
-        private async Task<int> DoAsync(string inFile1, string inFile2, string inFile3, string inFile4, string outFile, IProgress<int> progress, IProgress<string> progress_str, CancellationToken token)
+        private async Task<int> DoAsync(List<string> inFiles, string outFile, IProgress<int> progress, IProgress<string> progress_str, CancellationToken token)
         {
             int no_done = 0;
             int no_total = 0;
             FileClass the_file = new FileClass(this, progress_str);
 
-            await the_file.processFile(inFile1, token);
-
-            await the_file.processFile(inFile2, token);
-
-            if (!String.IsNullOrEmpty(inFile3))
+            foreach (string filename in inFiles)
             {
-                await the_file.processFile(inFile3, token);
-            }
-
-            if (!String.IsNullOrEmpty(inFile4))
-            {
-                await the_file.processFile(inFile4, token);
+                await the_file.processFile(filename, token);
             }
 
             no_total = the_file.getDataCount() + 2;
@@ -121,7 +113,13 @@ namespace mhx_concatenate
 
                 listBox1.Items.Clear();
 
-                await new Form1().DoAsync(openFileDialog1.FileName, openFileDialog2.FileName, (inFile3CheckBox.Checked ? openFileDialog3.FileName : null), (inFile4CheckBox.Checked ? openFileDialog4.FileName : null), saveFileDialog1.FileName, progress, progress_str, cts.Token);
+                List<string> inFiles = new List<string>();
+                inFiles.Add(openFileDialog1.FileName);
+                inFiles.Add(openFileDialog2.FileName);
+                if (inFile3CheckBox.Checked) inFiles.Add(openFileDialog3.FileName);
+                if (inFile4CheckBox.Checked) inFiles.Add(openFileDialog4.FileName);
+
+                await new Form1().DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
