@@ -41,11 +41,15 @@ namespace mhx_concatenate
         {
             int no_done = 0;
             int no_total = 0;
+            int no_parsed = 0;
             FileClass the_file = new FileClass(this, progress_str);
+
+            progress.Report(no_parsed);
 
             foreach (string filename in inFiles)
             {
                 await the_file.processFile(filename, token);
+                progress.Report(no_parsed += (100 / inFiles.Count));
             }
 
             no_total = the_file.getDataCount() + 2;
