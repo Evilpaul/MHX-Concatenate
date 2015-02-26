@@ -48,7 +48,7 @@ namespace mhx_concatenate
                     if (token.IsCancellationRequested)
                     {
                         output_str.Report("Operation Cancelled");
-                        break;
+                        return -1;
                     }
 
                     addDataLine(await sr.ReadLineAsync());
