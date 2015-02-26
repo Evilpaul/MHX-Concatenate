@@ -134,7 +134,7 @@ namespace mhx_concatenate
                 if (inFile3CheckBox.Checked) inFiles.Add(openFileDialog3.FileName);
                 if (inFile4CheckBox.Checked) inFiles.Add(openFileDialog4.FileName);
 
-                await new Form1().DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
+                await DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
             }
             catch
             {
