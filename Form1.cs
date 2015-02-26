@@ -39,10 +39,8 @@ namespace mhx_concatenate
 
         private async Task<int> DoAsync(List<string> inFiles, string outFile, IProgress<int> progress, IProgress<string> progress_str, CancellationToken token)
         {
-            int no_done = 0;
-            int no_total = 0;
             int no_parsed = 0;
-            FileClass the_file = new FileClass(this, progress_str);
+            FileClass the_file = new FileClass(this, progress, progress_str);
 
             progress.Report(no_parsed);
 
@@ -58,54 +56,7 @@ namespace mhx_concatenate
                 }
             }
 
-            no_total = the_file.getDataCount() + 2;
-            progress.Report(0);
-
-            try
-            {
-                StreamWriter sw = new StreamWriter(outFile);
-                try
-                {
-                    progress_str.Report("Writing output file");
-                    progress_str.Report("Writing header : " + the_file.getHeaderDecoded());
-                    await sw.WriteLineAsync(the_file.getHeader());
-                    no_done++;
-                    progress.Report((no_done / no_total) * 100);
-
-                    progress_str.Report("Writing " + the_file.getDataCount() + " data lines");
-                    for (int i = 0; i < the_file.getDataCount(); i++)
-                    {
-                        await sw.WriteLineAsync(the_file.getDataLine(i));
-                        no_done++;
-                        double blah = (double)no_done / (double)no_total;
-                        progress.Report((int)(blah * 100));
-
-                        if (token.IsCancellationRequested)
-                        {
-                            progress_str.Report("Operation Cancelled");
-                            return -1;
-                        }
-                    }
-
-                    progress_str.Report("Writing start address : " + the_file.getDecodedStartAddress());
-                    await sw.WriteLineAsync(the_file.getStartAddress());
-                    progress.Report(100);
-
-                    progress_str.Report("Concatenation complete.");
-                }
-                catch
-                {
-                    progress_str.Report("Exception caught processing files!");
-                }
-                finally
-                {
-                    sw.Close();
-                }
-            }
-            catch
-            {
-                progress_str.Report("Exception caught opening files!");
-            }
+            await the_file.outputFile(outFile, token).ConfigureAwait(continueOnCapturedContext: false);
 
             return 1;
         }

@@ -16,15 +16,17 @@ namespace mhx_concatenate
         private uint errorCount = 0;
         private uint lineCount = 0;
         private Form1 parentForm;
+        private IProgress<int> output_prg;
         private IProgress<string> output_str;
 
         private Header testHeader;
         private Data testData;
         private StartAddr testSAddr;
 
-        public FileClass(Form1 pf, IProgress<string> progress_str)
+        public FileClass(Form1 pf, IProgress<int> progress, IProgress<string> progress_str)
         {
             parentForm = pf;
+            output_prg = progress;
             output_str = progress_str;
 
             errorCount = 0;
@@ -67,32 +69,87 @@ namespace mhx_concatenate
             return 1;
         }
 
-        public string getHeader()
+        public async Task<int> outputFile(string file, CancellationToken token)
+        {
+            int no_done = 0;
+            int no_total = getDataCount() + 2;
+            output_prg.Report(0);
+
+            try
+            {
+                StreamWriter sw = new StreamWriter(file);
+                try
+                {
+                    output_str.Report("Writing output file");
+                    output_str.Report("Writing header : " + getHeaderDecoded());
+                    await sw.WriteLineAsync(getHeader());
+                    no_done++;
+                    output_prg.Report((no_done / no_total) * 100);
+
+                    output_str.Report("Writing " + getDataCount() + " data lines");
+                    for (int i = 0; i < getDataCount(); i++)
+                    {
+                        await sw.WriteLineAsync(getDataLine(i));
+                        no_done++;
+                        double blah = (double)no_done / (double)no_total;
+                        output_prg.Report((int)(blah * 100));
+
+                        if (token.IsCancellationRequested)
+                        {
+                            output_str.Report("Operation Cancelled");
+                            return -1;
+                        }
+                    }
+
+                    output_str.Report("Writing start address : " + getDecodedStartAddress());
+                    await sw.WriteLineAsync(getStartAddress());
+                    output_prg.Report(100);
+
+                    output_str.Report("Concatenation complete.");
+                }
+                catch
+                {
+                    output_str.Report("Exception caught processing files!");
+                }
+                finally
+                {
+                    sw.Close();
+                }
+            }
+            catch
+            {
+                output_str.Report("Exception caught opening files!");
+            }
+
+            return 1;
+        }
+
+        private string getHeader()
         {
             return testHeader.getRawHeader();
         }
 
-        public string getHeaderDecoded()
+        private string getHeaderDecoded()
         {
             return testHeader.getHeader();
         }
 
-        public int getDataCount()
+        private int getDataCount()
         {
             return testData.getDataItems();
         }
 
-        public string getDataLine(int line)
+        private string getDataLine(int line)
         {
             return testData.getData(line);
         }
 
-        public string getStartAddress()
+        private string getStartAddress()
         {
             return testSAddr.getRawAddr();
         }
 
-        public string getDecodedStartAddress()
+        private string getDecodedStartAddress()
         {
             return testSAddr.getStartAddr();
         }
