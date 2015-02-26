@@ -50,6 +50,12 @@ namespace mhx_concatenate
             {
                 await the_file.processFile(filename, token).ConfigureAwait(continueOnCapturedContext: false);
                 progress.Report(no_parsed += (100 / inFiles.Count));
+
+                if (token.IsCancellationRequested)
+                {
+                    progress_str.Report("Operation Cancelled");
+                    return -1;
+                }
             }
 
             no_total = the_file.getDataCount() + 2;
@@ -74,6 +80,11 @@ namespace mhx_concatenate
                         no_done++;
                         double blah = (double)no_done / (double)no_total;
                         progress.Report((int)(blah * 100));
+                        if (token.IsCancellationRequested)
+                        {
+                            progress_str.Report("Operation Cancelled");
+                            return -1;
+                        }
                     }
 
                     progress_str.Report("Writing start address : " + the_file.getDecodedStartAddress());
