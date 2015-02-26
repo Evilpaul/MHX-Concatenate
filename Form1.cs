@@ -73,13 +73,13 @@ namespace mhx_concatenate
                     progress.Report((no_done / no_total) * 100);
 
                     progress_str.Report("Writing " + the_file.getDataCount() + " data lines");
-                    int i;
-                    for (i = 0; i < the_file.getDataCount(); i++)
+                    for (int i = 0; i < the_file.getDataCount(); i++)
                     {
                         await sw.WriteLineAsync(the_file.getDataLine(i));
                         no_done++;
                         double blah = (double)no_done / (double)no_total;
                         progress.Report((int)(blah * 100));
+
                         if (token.IsCancellationRequested)
                         {
                             progress_str.Report("Operation Cancelled");
