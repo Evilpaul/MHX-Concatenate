@@ -135,9 +135,6 @@ namespace mhx_concatenate
                 if (inFile4CheckBox.Checked) inFiles.Add(openFileDialog4.FileName);
 
                 await new Form1().DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
             }
             catch(Exception ex)
             {
@@ -145,6 +142,9 @@ namespace mhx_concatenate
             }
             finally
             {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
                 concatenateButton.Enabled = true;
             }
         }
