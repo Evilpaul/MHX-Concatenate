@@ -48,7 +48,7 @@ namespace mhx_concatenate
 
             foreach (string filename in inFiles)
             {
-                await the_file.processFile(filename, token);
+                await the_file.processFile(filename, token).ConfigureAwait(continueOnCapturedContext: false);
                 progress.Report(no_parsed += (100 / inFiles.Count));
             }
 
