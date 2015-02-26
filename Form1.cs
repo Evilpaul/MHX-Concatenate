@@ -106,7 +106,7 @@ namespace mhx_concatenate
             {
                 progress_str.Report("Exception caught opening files!");
             }
-            
+
             return 1;
         }
 
@@ -136,7 +136,7 @@ namespace mhx_concatenate
 
                 await new Form1().DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
             }
-            catch(Exception ex)
+            catch
             {
                 progress_str.Report("Exception caught processing files!");
             }
