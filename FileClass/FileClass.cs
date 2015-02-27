@@ -44,8 +44,10 @@ namespace mhx_concatenate
 
             using (StreamReader sr = new StreamReader(file))
             {
+				string currLine;
+
                 output_str.Report("Processing " + file);
-                while (sr.Peek() >= 0)
+				while ((currLine = await sr.ReadLineAsync().ConfigureAwait(continueOnCapturedContext: false)) != null)
                 {
                     if (token.IsCancellationRequested)
                     {
@@ -53,7 +55,7 @@ namespace mhx_concatenate
                         return -1;
                     }
 
-                    addDataLine(await sr.ReadLineAsync());
+					addDataLine(currLine);
                 }
 
                 output_str.Report(lineCount + " data lines found");
