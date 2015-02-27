@@ -68,6 +68,7 @@ namespace mhx_concatenate
             IProgress<string> progress_str = new Progress<string>(status =>
             {
                 listBox1.Items.Add(status);
+				listBox1.TopIndex = listBox1.Items.Count - 1;
             });
 
             try
