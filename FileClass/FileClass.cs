@@ -63,6 +63,8 @@ namespace mhx_concatenate
 
         public void outputFile(string file)
         {
+			int last_prg = -1;
+			int curr_prg = -1;
             int no_done = 0;
 			int count = getDataCount();
 			int no_total = count + 2;
@@ -82,7 +84,12 @@ namespace mhx_concatenate
                 {
 					sw.WriteLine(getDataLine(i));
                     no_done++;
-					output_prg.Report((no_done * 100) / no_total);
+					curr_prg = (no_done * 100) / no_total;
+					if (curr_prg != last_prg)
+					{
+						last_prg = curr_prg;
+						output_prg.Report(curr_prg);
+					}
                 }
 
                 output_str.Report("Writing start address : " + getDecodedStartAddress());
