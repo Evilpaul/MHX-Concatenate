@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using FileClass;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace mhx_concatenate
 {
@@ -37,7 +35,7 @@ namespace mhx_concatenate
             testSAddr = new StartAddr();
         }
 
-        public async Task<int> processFile(string file, CancellationToken token)
+        public void processFile(string file)
         {
             errorCount = 0;
             lineCount = 0;
@@ -47,14 +45,8 @@ namespace mhx_concatenate
 				string currLine;
 
                 output_str.Report("Processing " + file);
-				while ((currLine = await sr.ReadLineAsync().ConfigureAwait(continueOnCapturedContext: false)) != null)
+				while ((currLine = sr.ReadLine()) != null)
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        output_str.Report("Operation Cancelled");
-                        return -1;
-                    }
-
 					addDataLine(currLine);
                 }
 
@@ -67,11 +59,9 @@ namespace mhx_concatenate
 
                 output_str.Report("");
             }
-
-            return 1;
         }
 
-        public async Task<int> outputFile(string file, CancellationToken token)
+        public void outputFile(string file)
         {
             int no_done = 0;
 			int count = getDataCount();
@@ -83,23 +73,23 @@ namespace mhx_concatenate
             {
                 output_str.Report("Writing output file");
                 output_str.Report("Writing header : " + getHeaderDecoded());
-				await sw.WriteLineAsync(getHeader()).ConfigureAwait(continueOnCapturedContext: false);
+				sw.WriteLine(getHeader());
                 no_done++;
                 output_prg.Report((no_done * 100)/ no_total);
 
 				output_str.Report("Writing " + count + " data lines");
 				for (int i = 0; i < count; i++)
                 {
-					await sw.WriteLineAsync(getDataLine(i)).ConfigureAwait(continueOnCapturedContext: false);
+					sw.WriteLine(getDataLine(i));
                     no_done++;
 					output_prg.Report((no_done * 100) / no_total);
                 }
 
                 output_str.Report("Writing start address : " + getDecodedStartAddress());
-				await sw.WriteLineAsync(getStartAddress()).ConfigureAwait(continueOnCapturedContext: false);
+				sw.WriteLine(getStartAddress());
                 output_prg.Report(100);
 
-				await sw.FlushAsync().ConfigureAwait(continueOnCapturedContext: false);
+				sw.Flush();
 
                 output_str.Report("Concatenation complete.");
             }
@@ -107,8 +97,6 @@ namespace mhx_concatenate
             {
                 sw.Close();
 			}
-
-			return 1;
         }
 
         private string getHeader()

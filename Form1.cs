@@ -37,28 +37,23 @@ namespace mhx_concatenate
             }
         }
 
-        private async Task<int> DoAsync(List<string> inFiles, string outFile, IProgress<int> progress, IProgress<string> progress_str, CancellationToken token)
+        private Task DoAsync(List<string> inFiles, string outFile, IProgress<int> progress, IProgress<string> progress_str)
         {
-            int no_parsed = 0;
-            FileClass the_file = new FileClass(this, progress, progress_str);
+            return Task.Run(() =>
+				{
+					int no_parsed = 0;
+					FileClass the_file = new FileClass(this, progress, progress_str);
 
-            progress.Report(no_parsed);
+					progress.Report(no_parsed);
 
-            foreach (string filename in inFiles)
-            {
-                await the_file.processFile(filename, token).ConfigureAwait(continueOnCapturedContext: false);
-                progress.Report(no_parsed += (100 / inFiles.Count));
+					foreach (string filename in inFiles)
+					{
+						the_file.processFile(filename);
+						progress.Report(no_parsed += (100 / inFiles.Count));
+					}
 
-                if (token.IsCancellationRequested)
-                {
-                    progress_str.Report("Operation Cancelled");
-                    return -1;
-                }
-            }
-
-            await the_file.outputFile(outFile, token).ConfigureAwait(continueOnCapturedContext: false);
-
-            return 1;
+					the_file.outputFile(outFile);
+				});
         }
 
         private async void concatenateButton_Click(object sender, EventArgs e)
@@ -86,7 +81,7 @@ namespace mhx_concatenate
                 if (inFile3CheckBox.Checked) inFiles.Add(openFileDialog3.FileName);
                 if (inFile4CheckBox.Checked) inFiles.Add(openFileDialog4.FileName);
 
-                await DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str, cts.Token);
+                await DoAsync(inFiles, saveFileDialog1.FileName, progress, progress_str);
             }
             catch
             {
